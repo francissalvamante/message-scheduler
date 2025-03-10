@@ -56,22 +56,13 @@ module.exports = {
     messagesToday.forEach(async (message) => {
       const channel = client.channels.cache.get(message.channel);
 
-      // const embed = new EmbedBuilder()
-      // .setTitle("Desert Storm Battlefield starting in 10 mins")
-      // .setDescription(
-      //   "Participants of Desert Storm Battlefield, please login to participate in the event and secure this weeks win!"
-      // )
-      // .setImage(
-      //   "https://c2c.fp.guinfra.com/file/671b157ceb2b2ed6d07735295xUbfU2U03"
-      // )
-      // .setThumbnail(
-      //   "https://play-lh.googleusercontent.com/rg30p5lancZwLdV2UE8zzPcnCAotFFnt0jIM9fu66TNP9v89uqF6L5tSFOvYjvUB_Gsa"
-      // )
-      // .setColor("#ff0000");
-
       const embed = new EmbedBuilder()
         .setTitle(message.title)
-        .setDescription(message.body);
+        .setDescription(message.body)
+        .setThumbnail(
+          "https://play-lh.googleusercontent.com/rg30p5lancZwLdV2UE8zzPcnCAotFFnt0jIM9fu66TNP9v89uqF6L5tSFOvYjvUB_Gsa"
+        );
+
       await channel.send({ embeds: [embed] });
       await module.exports.updateMessage(message);
     });
