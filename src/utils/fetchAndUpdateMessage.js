@@ -9,6 +9,7 @@ const {
   addMonths,
   format,
 } = require("date-fns");
+const logger = require("pino")();
 
 const digitPatt = /[0-9]/g;
 const alphaPatt = /[a-zA-Z]/g;
@@ -64,7 +65,9 @@ module.exports = {
         );
 
       await channel.send({ embeds: [embed] });
+      logger.info("📨 Message sent to designated channel");
       await module.exports.updateMessage(message);
+      logger.info("✏️ Updated record to run at the next interval");
     });
   },
 };

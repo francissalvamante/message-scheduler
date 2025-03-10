@@ -1,5 +1,6 @@
 const { devs, testServer } = require("../../../config.json");
 const getLocalCommands = require("../../utils/getLocalCommands");
+const logger = require("pino")();
 
 module.exports = async (client, interaction) => {
   if (!interaction.isChatInputCommand) return;
@@ -34,7 +35,6 @@ module.exports = async (client, interaction) => {
     }
 
     if (commandObject.permissionsRequired?.length) {
-      console.log(interaction.member.permissions);
       for (const permission of commandObject.permissionsRequired) {
         if (!interaction.member.permissions.has(permission)) {
           interaction.reply({
@@ -62,6 +62,6 @@ module.exports = async (client, interaction) => {
 
     await commandObject.callback(client, interaction);
   } catch (error) {
-    console.log(`There was an error running this command: ${error}`);
+    logger.error(`There was an error running this command: ${error}`);
   }
 };

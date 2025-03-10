@@ -2,6 +2,7 @@ const { testServer } = require("../../../config.json");
 const getApplicationCommands = require("../../utils/getApplicationCommands");
 const getLocalCommands = require("../../utils/getLocalCommands");
 const areCommandsDifferent = require("../../utils/areCommandsDifferent");
+const logger = require("pino")();
 
 module.exports = async (client) => {
   try {
@@ -21,7 +22,7 @@ module.exports = async (client) => {
       if (existingCommand) {
         if (localCommand.deleted) {
           await applicationCommands.delete(existingCommand.id);
-          console.log(`🗑️ Deleted command "${name}"`);
+          logger.info(`🗑️ Deleted command "${name}"`);
           continue;
         }
 
@@ -31,12 +32,12 @@ module.exports = async (client) => {
             options,
           });
 
-          console.log(`✏️ Edited command "${name}"`);
+          logger.info(`✏️ Edited command "${name}"`);
         }
       } else {
         if (localCommand.deleted) {
-          console.log(
-            `Skipping registering command "${name}" as it's set to delete`
+          logger.info(
+            `⛔ Skipping registering command "${name}" as it's set to delete`
           );
           continue;
         }
@@ -47,10 +48,10 @@ module.exports = async (client) => {
           options,
         });
 
-        console.log(`👍 ${name} command added`);
+        logger.info(`👍 ${name} command added`);
       }
     }
   } catch (error) {
-    console.log(`There was an error: ${error}`);
+    logger.error(`There was an error registering slash commands: ${error}`);
   }
 };

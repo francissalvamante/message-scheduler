@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 const converter = require("./utils/dateConverter");
 const fetchAndUpdateMessage = require("./utils/fetchAndUpdateMessage");
+const logger = require("pino")();
 
 const client = new Client({
   intents: [
@@ -22,14 +23,13 @@ const client = new Client({
       process.env.MONGODB_USERNAME
     ).replace("<db_password>", process.env.MONGODB_PASSWORD);
     await mongoose.connect(uri);
-    console.log("\x1b[32m🪣 ✅ Connected to DB\x1b[0m");
+    logger.info("🪣 ✅ Connected to DB");
   } catch (error) {
-    console.log(`❎ An unexpected error has occured: ${error}`);
+    logger.error(`❎ An unexpected error has occured: ${error}`);
   }
 
   eventHandler(client);
   cron.schedule("* * * * *", async () => {
-    console.log("running a scheduled job every minute");
     try {
       const startDate = converter.dateConverter();
       const time = converter.currentTime();
@@ -40,10 +40,10 @@ const client = new Client({
         time
       );
     } catch (error) {
-      console.log(`\x1b[31m An unexpected error has occured ${error}\x1b[0m`);
+      logger.error(`An unexpected error has occured ${error}`);
     }
   });
-  console.log("\x1b[32m🕛 cronjob scheduled\x1b[0m");
+  logger.info("🕛 cronjob scheduled");
 })();
 
 client.login(process.env.TOKEN);
