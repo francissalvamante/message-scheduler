@@ -5,7 +5,6 @@ module.exports = {
   name: "list",
   description: "Show list of scheduled message.",
   callback: async (client, interaction) => {
-    console.log("interaction", interaction.member.guild.id);
     const messages = await Message.find({
       guildId: interaction.member.guild.id,
     });
