@@ -63,7 +63,6 @@ module.exports = {
       const newRecord = await Message.findByIdAndUpdate(id, newMessageDto, {
         new: true,
       });
-      console.log(newRecord);
       logger.info("✅ Update successful");
 
       const embed = new EmbedBuilder()
