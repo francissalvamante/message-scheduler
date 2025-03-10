@@ -1,5 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const Message = require("../../models/messages");
+const logger = require("pino")();
 
 module.exports = {
   name: "schedule-message",
@@ -55,10 +56,17 @@ module.exports = {
       interval: interaction.options.getString("interval"),
     };
 
-    const newMessage = new Message(newMessageDto);
+    try {
+      const newMessage = new Message(newMessageDto);
 
-    await newMessage.save();
-    await interaction.reply("Scheduled");
+      await newMessage.save();
+      logger.info("💾 New message saved!");
+      await interaction.reply(
+        `"${newMessageDto.title}" saved and expected to run on ${newMessageDto.startDate} at ${newMessageDto.time}`
+      );
+    } catch (error) {
+      logger.error(`An unexpected error has occured while saving: ${error}`);
+    }
   },
   // deleted: true,
   // devOnly: Boolean;
