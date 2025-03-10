@@ -9,9 +9,12 @@ module.exports = {
       guildId: interaction.member.guild.id,
     });
 
-    const embed = new EmbedBuilder().setTitle(
-      "List of all announcements/messages scheduled:"
-    );
+    const embed = new EmbedBuilder()
+      .setTitle("List of all announcements/messages scheduled:")
+      .setColor(0x776f0d)
+      .setFooter({
+        text: "To update any message, use /update and provide the id located after the title",
+      });
 
     messages.forEach((message, idx) => {
       embed.addFields({
@@ -19,10 +22,6 @@ module.exports = {
         value: "",
         inline: false,
       });
-    });
-
-    embed.setFooter({
-      text: "To update any message, use /update and provide the id located after the title",
     });
 
     interaction.reply({ embeds: [embed] });
