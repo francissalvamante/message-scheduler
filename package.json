@@ -1,0 +1,20 @@
+{
+  "name": "message-scheduler-discord",
+  "version": "1.0.0",
+  "description": "A simple message scheduler bot",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "commonjs",
+  "author": "DixieNormouus",
+  "license": "ISC",
+  "dependencies": {
+    "@date-fns/tz": "^1.2.0",
+    "date-fns": "^4.1.0",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.12.1",
+    "node-cron": "^3.0.3"
+  }
+}
