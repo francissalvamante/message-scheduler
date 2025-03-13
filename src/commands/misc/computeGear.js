@@ -10,19 +10,30 @@ module.exports = {
     {
       name: "current",
       description: "Current gear level",
-      type: ApplicationCommandOptionType.Number,
+      type: ApplicationCommandOptionType.Integer,
       required: true,
+      min_value: 0,
+      max_value: 40,
     },
     {
       name: "target",
       description: "Target gear level",
-      type: ApplicationCommandOptionType.Number,
+      type: ApplicationCommandOptionType.Integer,
       required: true,
+      min_value: 0,
+      max_value: 40,
     },
   ],
   callback: async (client, interaction) => {
-    const current = interaction.options.getNumber("current");
-    const target = interaction.options.getNumber("target");
+    const current = interaction.options.getInteger("current");
+    const target = interaction.options.getInteger("target");
+
+    if (target < current) {
+      interaction.reply(
+        "Hey! What are you trying to pull here? Current level must be less than the target level"
+      );
+      return;
+    }
 
     const totalCost = {
       gold: 0,
