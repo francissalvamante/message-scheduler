@@ -1,5 +1,5 @@
 const { Client, IntentsBitField } = require("discord.js");
-require("dotenv/config");
+require("dotenv").config();
 const eventHandler = require("./handlers/eventHandler");
 const mongoose = require("mongoose");
 const cron = require("node-cron");

@@ -1,4 +1,4 @@
-const { testServer } = require("../../../config.json");
+const { testServer, isTesting } = require("../../../config.json");
 const getApplicationCommands = require("../../utils/getApplicationCommands");
 const getLocalCommands = require("../../utils/getLocalCommands");
 const areCommandsDifferent = require("../../utils/areCommandsDifferent");
@@ -7,7 +7,10 @@ const logger = require("pino")();
 module.exports = async (client) => {
   try {
     const localCommands = getLocalCommands();
-    const applicationCommands = await getApplicationCommands(client);
+    const applicationCommands = await getApplicationCommands(
+      client,
+      isTesting ? testServer : null
+    );
 
     for (const localCommand of localCommands) {
       const { name, description, options } = localCommand;
