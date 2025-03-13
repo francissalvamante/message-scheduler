@@ -51,12 +51,12 @@ module.exports = {
       .setColor(0x776f0d)
       .addFields({
         name: "Gold",
-        value: totalCost.gold.toString(),
+        value: totalCost.gold.toLocaleString(),
         inline: true,
       })
       .addFields({
         name: "Ore",
-        value: totalCost.ore.toString(),
+        value: totalCost.ore.toLocaleString(),
         inline: true,
       });
 
