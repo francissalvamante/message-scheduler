@@ -5,14 +5,12 @@ const MAX_CHARS = 1500;
 
 // Lazy ESM import cache (package is ESM-only)
 let _translateFn;
-let _TooManyRequestsError;
 async function getTranslateModule() {
   if (!_translateFn) {
     const mod = await import("@vitalets/google-translate-api");
     _translateFn = mod.translate;
-    _TooManyRequestsError = mod.TooManyRequestsError;
   }
-  return { translate: _translateFn, TooManyRequestsError: _TooManyRequestsError };
+  return _translateFn;
 }
 
 // Read proxy list once at startup
@@ -32,7 +30,7 @@ async function translate(text, targetLang) {
     truncated = true;
   }
 
-  const { translate: googleTranslate, TooManyRequestsError } = await getTranslateModule();
+  const googleTranslate = await getTranslateModule();
 
   const run = async (fetchOptions = {}) => {
     const result = await googleTranslate(text, { to: targetLang, fetchOptions });
@@ -47,7 +45,7 @@ async function translate(text, targetLang) {
   try {
     return await run();
   } catch (err) {
-    if (err instanceof TooManyRequestsError) {
+    if (err?.constructor?.name === "TooManyRequestsError") {
       logger.warn("Google Translate rate limit hit — retrying with proxy");
       const proxyUrl = getRandomProxy();
       if (!proxyUrl) {
