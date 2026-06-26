@@ -1,10 +1,13 @@
 const { format } = require("date-fns");
+const { formatInTimeZone } = require("date-fns-tz");
+
+const TIME_ZONE = "Asia/Singapore";
 
 module.exports = {
   dateConverter: () => {
-    return format(new Date(), "MM/dd/yy");
+    return formatInTimeZone(new Date(), TIME_ZONE, "MM/dd/yy");
   },
   currentTime: () => {
-    return format(new Date(), "HH:mm");
+    return formatInTimeZone(new Date(), TIME_ZONE, "HH:mm");
   },
 };
